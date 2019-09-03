@@ -1,0 +1,38 @@
+FROM ${distro}:${release}
+MAINTAINER Thomas Kent <docker@teeks99.com>
+
+ADD llvm-snapshot.gpg.key /
+
+# Pre-Req Repos
+RUN apt-get update \
+ && apt-get install -y software-properties-common \
+  gnupg \
+# Install pre-reqs
+ && apt-key add llvm-snapshot.gpg.key \
+ && rm llvm-snapshot.gpg.key \
+ # Do this after the update/key add
+ && echo deb ${apt_uri} ${apt_dist} main > /etc/apt/sources.list.d/llvm.list \
+ && echo deb-src ${apt_uri} ${apt_dist} main >> /etc/apt/sources.list.d/llvm.list \
+ && apt-get update \
+ && apt-get install -y \
+  ca-certificates \
+  build-essential \
+# Install Tool
+  clang-${llvmver} \
+  clang-tools-${llvmver} \
+  clang-format-${llvmver} \
+  python-clang-${llvmver} \
+  libllvm-${llvmver}-ocaml-dev \
+  libllvm${llvmver} \
+  llvm-${llvmver} \
+  llvm-${llvmver}-dev \
+  llvm-${llvmver}-doc \
+  llvm-${llvmver}-examples \
+  llvm-${llvmver}-runtime \
+  libfuzzer-${llvmver}-dev \
+  lldb-${llvmver} \
+  lld-${llvmver} \
+  libc++-${llvmver}-dev \
+  libc++abi-${llvmver}-dev \
+  libomp-${llvmver}-dev 
+
