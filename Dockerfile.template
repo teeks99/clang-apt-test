@@ -15,6 +15,8 @@ RUN apt-get update \
  && echo deb-src ${apt_uri} ${apt_dist} main >> /etc/apt/sources.list.d/llvm.list \
  && apt-get update \
  && apt-get install -y \
+# Try overriding pinning
+  -t ${apt_dist} \
   ca-certificates \
   build-essential \
 # Install Tool
